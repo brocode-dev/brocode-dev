@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 doteenv_path = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(doteenv_path)
 
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'brocode.settings')
 
 from django.core.wsgi import get_wsgi_application

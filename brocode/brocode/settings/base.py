@@ -17,6 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -24,9 +25,7 @@ load_dotenv()
 SECRET_KEY = 'django-insecure-=r96vfwyf0je+88b^6sf159^64b0_(t1*##bo(h6tgqypzjpm^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
