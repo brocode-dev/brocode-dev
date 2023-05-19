@@ -37,9 +37,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     """User in the System."""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
+    otp = models.CharField(max_length=50, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    is_varified = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
 
 
     objects = UserManager()

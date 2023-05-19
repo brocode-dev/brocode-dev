@@ -21,7 +21,7 @@ class UserAdmin(BaseUserAdmin):
                     'is_active',
                     'is_staff',
                     'is_superuser',
-                    'is_varified',
+                    'is_verified',
                 )
             }
         ),
@@ -39,9 +39,10 @@ class UserAdmin(BaseUserAdmin):
                 'is_active',
                 'is_staff',
                 'is_superuser',
-                'is_varified',
-            ),
-        }),
+                'is_verified',
+                )
+            }
+        ),
     )
     
 
