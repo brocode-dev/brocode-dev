@@ -23,10 +23,14 @@ class UserRegistrationView(APIView):
         })
     
 
-class UserVerification(APIView):
+class UserVerificationView(APIView):
     def post(self, request, format=None):
         result = user_service.verifyOTP(request, format=None)
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        print(result.data)
+        return Response(result.data, status=result.data["code"])
+    
+
+class SendMailView(APIView):
+    def post(self, request, format=None):
+        result = user_service.sendMail(request, format=None)
         return Response(result.data, status=result.data["code"])
             

@@ -6,5 +6,6 @@ app_name = 'user'
 urlpatterns = [
     # User
     path('registeration/', UserRegistrationView.as_view(), name='registeraton'),
-    path('verification/', UserVerification.as_view(), name='verification')
+    path('verification/', UserVerificationView.as_view(), name='verification'),
+    path('send-mail/', SendMailView.as_view(), name='send-mail'),
 ]

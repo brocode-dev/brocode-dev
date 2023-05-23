@@ -13,6 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['email', 'password', 'name']
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
 
-class VerifyOTPSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    otp = serializers.CharField()
+# class VerifyOTPSerializer(serializers.Serializer):
+#     email = serializers.EmailField()
+    # otp = serializers.CharField()

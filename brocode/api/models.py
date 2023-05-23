@@ -37,7 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """User in the System."""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
-    otp = models.CharField(max_length=50, null=True, blank=True)
+    # otp = models.CharField(max_length=50, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
@@ -47,3 +47,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
+
+class Otp(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    is_expire = models.BooleanField(default=False)
