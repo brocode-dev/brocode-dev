@@ -28,7 +28,7 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.is_superuser = True
         user.is_varified = True
-        user.save(using=self._db)
+        user.save()
 
         return user
 

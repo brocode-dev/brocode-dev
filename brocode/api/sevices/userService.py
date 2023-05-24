@@ -17,7 +17,6 @@ class UserService(UserBaseService):
     def register(self, request, format=None):
         """User Registeration."""
         try:
-            # breakpoint()
             serializer = UserSerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
@@ -25,13 +24,19 @@ class UserService(UserBaseService):
                 return serializer.data, status.HTTP_200_OK,'Register Successfully'
             else:
                 return serializer.errors, status.HTTP_400_BAD_REQUEST,'Register Failed'
-        
+    
         except Exception as e:
             print(e)
 
 
     def verifyOTP(self, request, format=None):
         try: 
+            if 'email' not in request.data or 'otp' not in request.data:
+                return Response({
+                    "data":{},
+                    "code":status.HTTP_400_BAD_REQUEST,
+                    "message":"Email and OTP both fields are required."
+                })
             email = request.data['email']
             otp = request.data['otp']
             user = User.objects.filter(email = email)
@@ -73,6 +78,12 @@ class UserService(UserBaseService):
             print(e)
                     
     def sendMail(self, request, format=None):
+        if 'email' not in request.data:
+            return Response({
+                "data":{},
+                "code":status.HTTP_400_BAD_REQUEST,
+                "message":"Email field is required."
+            })
         email = request.data['email']
         user = User.objects.filter(email=email)
         if not user:
