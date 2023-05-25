@@ -1,6 +1,6 @@
 from rest_framework import status
 from rest_framework.response import Response
-from api.serializers import UserSerializer
+from api.serializers import RegistrationSerializer, LoginSerializer
 from django.contrib.auth import get_user_model
 
 from datetime import datetime, timezone
@@ -17,8 +17,8 @@ class UserService(UserBaseService):
     def register(self, request, format=None):
         """User Registeration."""
         try:
-            serializer = UserSerializer(data=request.data)
-            if serializer.is_valid(raise_exception=True):
+            serializer = RegistrationSerializer(data=request.data)
+            if serializer.is_valid():
                 serializer.save()
                 # send_otp_via_email(serializer.data['email'])
                 return serializer.data, status.HTTP_200_OK,'Register Successfully'
@@ -26,8 +26,21 @@ class UserService(UserBaseService):
                 return serializer.errors, status.HTTP_400_BAD_REQUEST,'Register Failed'
     
         except Exception as e:
-            print(e)
+            return "", status.HTTP_500_INTERNAL_SERVER_ERROR, str(e)
 
+
+    def login(self, request, format=None):
+        """User Login."""
+        try:
+            serializer = LoginSerializer(data=request.data)
+            if serializer.is_valid():
+                # serializer.save()
+                return serializer.data, status.HTTP_200_OK,'Login Successfully!'
+            else:
+                return serializer.errors, status.HTTP_400_BAD_REQUEST,'Login Failed!'
+    
+        except Exception as e:
+            return "", status.HTTP_500_INTERNAL_SERVER_ERROR, str(e)
 
     def verifyOTP(self, request, format=None):
         try: 
@@ -39,6 +52,7 @@ class UserService(UserBaseService):
                 })
             email = request.data['email']
             otp = request.data['otp']
+            breakpoint()
             user = User.objects.filter(email = email)
             if not user:
                 return Response({
@@ -75,7 +89,11 @@ class UserService(UserBaseService):
                     "message":"Email varified!"
                 })
         except Exception as e:
-            print(e)
+            return Response({
+                    "data":{},
+                    "code":status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    "message": str(e)
+                })
                     
     def sendMail(self, request, format=None):
         if 'email' not in request.data:

@@ -9,11 +9,14 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__ + "/..")))
+# print("????????????????????????????????????????????????????????????????????/")
+# print(os.path.join(BASE_DIR,'api/utils/exceptions.core_exception_handler'),)
 
 load_dotenv()
 
@@ -72,6 +75,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'brocode.wsgi.application'
 
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'api.utils.exceptions.core_exception_handler',
+    'NON_FIELD_ERRORS_KEY': 'error',
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
