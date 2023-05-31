@@ -3,15 +3,11 @@ Serializer for the user API View.
 """
 
 from api.models import User
-
 from django.contrib.auth import authenticate
-
 from rest_framework import serializers
-# from django.contrib.auth.hashers import make_password
-# from rest_framework.validators import UniqueValidator
-# from django.core.exceptions import ValidationError
-# from django.core.validators import validate_email, EmailValidator
 from .utils.password_validate import password_check
+
+
 class RegistrationSerializer(serializers.ModelSerializer):
     token = serializers.CharField(max_length=255, read_only=True)
     class Meta:
@@ -33,20 +29,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
-    
- 
-    
-
-# class VerifyOTPSerializer(serializers.Serializer):
-#     email = serializers.EmailField()
-#     otp = serializers.CharField()
 
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=255)
     username = serializers.CharField(max_length=255, read_only=True)
     password = serializers.CharField(max_length=128, write_only=True)
-    token = serializers.CharField(max_length=255, read_only=True)
+    # token = serializers.CharField(max_length=255, read_only=True)
 
     def validate(self, data):
         email = data.get('email', None)
@@ -78,8 +67,30 @@ class LoginSerializer(serializers.Serializer):
         return {
             'email': user.email,
             'username': user.username,
-            'token': user.token
+            # 'token': user.token
         }
+
+
+class UserGetUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =User
+        fields = ['email', 'password', 'username', 'token']
+        read_only_fields = ('token',)
+	
+    # def validate(self, attr):
+    #       if not password_check(attr['password'])[0]:
+    #           raise serializers.ValidationError(password_check(attr['password'])[1])
+    #       return attr
     
-    # def create(self, validated_data):
-    #     return validated_data
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+
+        for (key, value) in validated_data.items():
+            setattr(instance, key, value)
+        
+        if password is not None:
+            instance.set_password(password)
+        
+        instance.save()
+
+        return instance

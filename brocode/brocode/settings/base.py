@@ -78,6 +78,10 @@ WSGI_APPLICATION = 'brocode.wsgi.application'
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'api.utils.exceptions.core_exception_handler',
     'NON_FIELD_ERRORS_KEY': 'error',
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'api.utils.backends.JWTAuthentication',
+    ),
 }
 
 # Database

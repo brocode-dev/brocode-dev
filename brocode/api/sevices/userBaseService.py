@@ -11,7 +11,7 @@ class UserBaseService(ABC):
         pass
 
     @abstractmethod
-    def verifyOTP(self):
+    def verify_otp(self):
         """ 
         Abstract method to verify user email.
         """
